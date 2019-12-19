@@ -7,9 +7,12 @@ def find_car_following(meta_data, data, my_type, preceding_type):
     :param meta_data: track meta information from highD dataset
     :param data: track data from highD dataset
     :param my_type: the ego vehicle's type
-    :param preceding_type: the preceiding vehicle's type
+    :param preceding_type: the preceding vehicle's type
 
-    :return:
+    :return: a list of dictionary with
+        id: identification of the vehicle
+        following_start: the index of array when the following starts
+        following_duration: the following duration
     """
     following_data = []
     for id in range(0,len(data)):
@@ -31,4 +34,4 @@ def get_vehicle_class(meta_data, id):
     :param id: vehicle's id in the dataset
     :return: vehicle type (string: 'Car' or 'Truck')
     """
-    return  meta_data[id].get('class')
+    return meta_data[id].get('class')
