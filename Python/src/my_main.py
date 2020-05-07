@@ -40,6 +40,7 @@ for dataset_id in data_id:
     #safety_stats = extract_safety(dataset_id, track_meta_data, track_data, EGO_TYPE, PRECEDING_TYPE)
     #pd.DataFrame(safety_stats).to_csv(results_dir + dataset_id + "_" + EGO_TYPE + "_follow_" + PRECEDING_TYPE + "_safety_stats.csv",
     #                                       index=False)
+
     numCar = recording_meta_data.get('numCars')
     numTruck = recording_meta_data.get('numTrucks')
     percentageTrucks = (numTruck/(recording_meta_data.get('numVehicles')))*100

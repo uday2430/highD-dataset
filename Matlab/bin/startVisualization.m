@@ -1,10 +1,10 @@
 clc; clear;
 
 % Name of the video
-videoString = "01";
+videoString = "58";
 
 % Define path of background image. Can be empty.
-backgroundImagePath = sprintf('data/%s_highway.jpg', videoString);
+backgroundImagePath = sprintf('data/%s_highway.png', videoString);
 % backgroundImagePath = "";
 
 % Read tracks by using tracks file and static tracks file.
