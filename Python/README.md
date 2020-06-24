@@ -28,6 +28,42 @@ The following is the folder structure assumed by the scripts (although some file
 1) Copy the csv files into the **data** directory under `Python/`
 2) Run my_main.py
 
+## Method descriptions
+A short description for newly added methods
+### read_csv_from_path.py
+This contains methods for reading the HighD data into variables. It is almost identical to the `read_csv.py` in the original toolbox. Changes are:
+* Now the methods take path to data file as an argument.
+* Variables `x` and `width` are added to track data. They are used in `find_initial_stats.py`.
+
+### find_car_following.py
+This script finds out car-following situations from specific vehicle types. Ego vehicle is the follower and preceding vehicle is the leader. Following parameters are extracted:
+* Identification of the ego vehicle
+* Identification of the preceding vehicle
+* The frame when the following starts
+* The following duration
+* The frame when the following ends
+* Array of DHW while following
+* Array of THW while following
+* Array of TTC while following
+
+### find_initial_stats.py
+This script finds out initial states of all vehicles in the dataset. The state includes:
+* Vehicle ID
+* Length of the vehicle
+* Class of the vehicle (Car or Truck)
+* Initial frame that the vehicle appears
+* Initial lane that the vehicle appears (Note: the lane ID depends on the location and driving direction)
+* Initial position where the vehicle appears
+* Initial speed of the vehicle
+
+### find_lane_changes.py
+This script finds out lane-changing situations from the dataset. The following data are returned:
+* Total number of lane changes
+* Total number of lane changes by cars
+* Total number of lane changes by trucks
+* Total number of cars
+* Total number of trucks
+
 ## Original method descriptions
 These are descriptions for methods according to https://github.com/RobertKrajewski/highD-dataset. Note that these methods below are not used in the new scripts.
 
