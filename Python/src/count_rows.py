@@ -1,4 +1,4 @@
-#just a script to count rows of a file
+# Just a script to count rows of a file
 
 import os
 import csv
