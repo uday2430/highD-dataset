@@ -2,7 +2,7 @@ import statistics
 
 def find_lane_changes(meta_data, data):
     """
-    Find out car-following situations from specific vehicle types
+    Find out lane-changing situations from the dataset
 
     :param meta_data: track meta information from highD dataset
     :param data: track data from highD dataset
