@@ -22,7 +22,7 @@ The following is the folder structure assumed by the scripts (although some file
 |&emsp;&emsp;&emsp;+-- visualize_frame.py\
 |&emsp;&emsp;+-- count_rows.py\
 |&emsp;&emsp;+-- main.py\
-|&emsp;&emsp;+-- my_main.py\
+|&emsp;&emsp;+-- my_main.py
 
 ## Quickstart
 1) Copy the csv files into the **data** directory in a sub folder 
