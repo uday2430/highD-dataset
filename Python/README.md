@@ -16,6 +16,8 @@ The following is the folder structure assumed by the scripts (although some file
 |&emsp;&emsp;&emsp;+-- read_csv_from_path.py\
 |&emsp;&emsp;+--:file_folder:track_data_processing\
 |&emsp;&emsp;&emsp;+-- find_car_follwing.py\
+|&emsp;&emsp;&emsp;+-- find_initial_stats.py\
+|&emsp;&emsp;&emsp;+-- find_lane_changes.py\
 |&emsp;&emsp;+--:file_folder:utils\
 |&emsp;&emsp;&emsp;+-- plot_utils.py\
 |&emsp;&emsp;+--:file_folder:visualization\
