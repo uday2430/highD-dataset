@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
-
 from data_management.read_csv_from_path import *
 from track_data_processing.find_car_following import *
+from track_data_processing.find_lane_changes import *
+from track_data_processing.find_initial_stats import *
 from car_following_data_processing.extract_safety import *
 
 # ----- Configuration for the script ------
