@@ -5,12 +5,12 @@ each method is shortly described to maintain easy and correct usage.
 
 The following is the folder structure assumed by the scripts (although some files marked in **bold** are not uploaded because of .gitignore):\
 .\
-+--:file_folder:python\
++--:file_folder:Python\
 |&emsp;+--:file_folder:**data**\
 |&emsp;+--:file_folder:**results**\
 |&emsp;+--:file_folder:src\
 |&emsp;&emsp;+--:file_folder:car_following_data_processing\
-|&emsp;&emsp;+-- extract_safety.py\
+|&emsp;&emsp;&emsp;+-- extract_safety.py\
 |&emsp;&emsp;+--:file_folder:data_management\
 |&emsp;&emsp;&emsp;+-- read_csv.py\
 |&emsp;&emsp;&emsp;+-- read_csv_from_path.py\
