@@ -22,18 +22,22 @@ def find_initial_state(meta_data, data):
              })
     return init_states
 
+
 def get_initial_lane(data, id):
     for i in range(0, len(data)):
         if data[i].get('id') == id:
             lane = data[i].get('laneId')[0]
             return lane
-def get_initial_position(data,id):
+
+
+def get_initial_position(data, id):
     for i in range(0, len(data)):
         if data[i].get('id') == id:
             pos = data[i].get('x')[0] + data[i].get('width')[0]
             return pos
 
-def get_initial_speed(data,id):
+
+def get_initial_speed(data, id):
     for i in range(0, len(data)):
         if data[i].get('id') == id:
             speed = data[i].get('xVelocity')[0]

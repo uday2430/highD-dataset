@@ -57,9 +57,6 @@ for dataset_id in data_id:
     print("%d cars changed lanes" % LC_stats.get('carLC'))
     print("%d trucks changed lanes" % LC_stats.get('truckLC'))
 
-    # ----- Extract safety information (dhw, thw, ttc) -----
-    safety_stats = extract_safety(dataset_id, track_meta_data, track_data, EGO_TYPE, PRECEDING_TYPE)
-
     # ----- Print location of this dataset (there are 6 locations in total) -----
     print("The location for this dataset is ",recording_meta_data.get('locationId'))
 
