@@ -86,6 +86,8 @@ def read_track_csv(arguments):
         tracks[current_track] = {TRACK_ID: np.int64(group_id),  # for compatibility, int would be more space efficient
                                  FRAME: rows[FRAME].values,
                                  BBOX: bounding_boxes,
+                                 X: rows[X].values,
+                                 WIDTH: rows[WIDTH].values,
                                  X_VELOCITY: rows[X_VELOCITY].values,
                                  Y_VELOCITY: rows[Y_VELOCITY].values,
                                  X_ACCELERATION: rows[X_ACCELERATION].values,
