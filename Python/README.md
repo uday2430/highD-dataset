@@ -3,17 +3,26 @@ The python toolbox gives the opportunity to read in the highD csv files and visu
 plot. Through modularity, one can use the i/o functions directly for own usage. In the following, 
 each method is shortly described to maintain easy and correct usage.
 
-```
- |-data
- |-src
-    |- data_management
-        |- read_csv.py
-    |- utils
-        |- plot_utils.py
-    |- visualization
-        |- visualize_frame.py
-    |- main.py
-```
+The following is the folder structure assumed by the scripts (although some files marked in **bold** are not uploaded because of .gitignore):\
+.\
++--:file_folder:python\
+|&emsp;+--:file_folder:**data**\
+|&emsp;+--:file_folder:**results**\
+|&emsp;+--:file_folder:src\
+|&emsp;&emsp;+--:file_folder:car_following_data_processing\
+|&emsp;&emsp;+-- extract_safety.py\
+|&emsp;&emsp;+--:file_folder:data_management\
+|&emsp;&emsp;&emsp;+-- read_csv.py\
+|&emsp;&emsp;&emsp;+-- read_csv_from_path.py\
+|&emsp;&emsp;+--:file_folder:track_data_processing\
+|&emsp;&emsp;&emsp;+-- find_car_follwing.py\
+|&emsp;&emsp;+--:file_folder:utils\
+|&emsp;&emsp;&emsp;+-- plot_utils.py\
+|&emsp;&emsp;+--:file_folder:visualization\
+|&emsp;&emsp;&emsp;+-- visualize_frame.py\
+|&emsp;&emsp;+-- count_rows.py\
+|&emsp;&emsp;+-- main.py\
+|&emsp;&emsp;+-- my_main.py\
 
 ## Quickstart
 1) Copy the csv files into the **data** directory in a sub folder 
