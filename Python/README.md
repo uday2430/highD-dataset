@@ -9,8 +9,6 @@ The following is the folder structure assumed by the scripts (although some file
 |&emsp;+--:file_folder:**data**\
 |&emsp;+--:file_folder:**results**\
 |&emsp;+--:file_folder:src\
-|&emsp;&emsp;+--:file_folder:car_following_data_processing\
-|&emsp;&emsp;&emsp;+-- extract_safety.py\
 |&emsp;&emsp;+--:file_folder:data_management\
 |&emsp;&emsp;&emsp;+-- read_csv.py\
 |&emsp;&emsp;&emsp;+-- read_csv_from_path.py\
@@ -27,12 +25,12 @@ The following is the folder structure assumed by the scripts (although some file
 |&emsp;&emsp;+-- my_main.py
 
 ## Quickstart
-1) Copy the csv files into the **data** directory in a sub folder 
-3) (Optional) Modify the folder_name (sub folder) and video_name variable in main.py or by changing 
-the arguments when calling the python function
-4) Run main.py
+1) Copy the csv files into the **data** directory under `Python/`
+2) Run my_main.py
 
-## Method descriptions
+## Original method descriptions
+These are descriptions for methods according to https://github.com/RobertKrajewski/highD-dataset. Note that these methods below are not used in the new scripts.
+
 One can find short descriptions of each method implemented in this toolbox. 
 ### main.py
 The main file is the starting point for the program. In this main file, the program first reads in 
