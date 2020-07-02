@@ -20,17 +20,17 @@ data_dir = "../data/"           # Directory where the HighD dataset is stored
 results_dir = "../results/"     # Directory where the results should be saved
 
 # ----- Car-following configuration -----
-EGO_TYPE = "Car"        # The follower's vehicle type (can be either "Car" or "Truck")
-PRECEDING_TYPE = "Car"  # The leader's vehicle type (can be either "Car" or "Truck")
+EGO_TYPE = ""           # The follower's vehicle type (can be either "Car" or "Truck")
+PRECEDING_TYPE = ""     # The leader's vehicle type (can be either "Car" or "Truck")
+following_pairs = [("Car", "Car"), ("Car", "Truck"), ("Truck", "Car"), ("Truck", "Truck")]
 
 nCar = 0
 nTruck = 0
 
 for dataset_id in data_id:
     print("Now reading the dataset number..." + dataset_id)
-
     # Define which file to read
-    recording_meta_path = data_dir+dataset_id+"_recordingMeta.csv"
+    recording_meta_path = data_dir + dataset_id + "_recordingMeta.csv"
     track_meta_path = data_dir + dataset_id + "_tracksMeta.csv"
     track_path = data_dir + dataset_id + "_tracks.csv"
 
@@ -47,30 +47,34 @@ for dataset_id in data_id:
     print("There are %d cars" % numCar)
     print("There are %d trucks" % numTruck)
 
-    # ----- Extract car-following period ------
-    car_following_data = find_car_following(track_meta_data, track_data, EGO_TYPE, PRECEDING_TYPE)
+    for pair in following_pairs:
+        EGO_TYPE = pair[0]
+        PRECEDING_TYPE = pair[1]
 
-    # ----- Extracting lane-changing statistics -----
-    LC_stats = find_lane_changes(track_meta_data, track_data)
-    print("There are %d lane changes in total for this dataset" % LC_stats.get('sumLC'))
-    print("%d cars changed lanes" % LC_stats.get('carLC'))
-    print("%d trucks changed lanes" % LC_stats.get('truckLC'))
+        # ----- Extract car-following period ------
+        car_following_data = find_car_following(track_meta_data, track_data, EGO_TYPE, PRECEDING_TYPE)
 
-    # ----- Print location of this dataset (there are 6 locations in total) -----
-    print("The location for this dataset is ",recording_meta_data.get('locationId'))
+        # ----- Extracting lane-changing statistics -----
+        LC_stats = find_lane_changes(track_meta_data, track_data)
+        print("There are %d lane changes in total for this dataset" % LC_stats.get('sumLC'))
+        print("%d cars changed lanes" % LC_stats.get('carLC'))
+        print("%d trucks changed lanes" % LC_stats.get('truckLC'))
 
-    # ----- Find initial states for all vehicles (position, speed, lane, class, length) -----
-    init_states = find_initial_state(track_meta_data, track_data)
+        # ----- Print location of this dataset (there are 6 locations in total) -----
+        print("The location for this dataset is ",recording_meta_data.get('locationId'))
 
-    if save_to_csv:
-        pd.DataFrame(car_following_data).to_csv(
-            results_dir + dataset_id + "_" + EGO_TYPE + "_follow_" + PRECEDING_TYPE + "_stats.csv",
-            index=False)
-        pd.DataFrame(safety_stats).to_csv(
-            results_dir + dataset_id + "_" + EGO_TYPE + "_follow_" + PRECEDING_TYPE + "_safety_stats.csv",
-            index=False)
-        pd.DataFrame(init_states).to_csv(
-            results_dir + dataset_id + "_initial_states.csv",
-            index=False)
+        # ----- Find initial states for all vehicles (position, speed, lane, class, length) -----
+        init_states = find_initial_state(track_meta_data, track_data)
 
-    print("---------------------------")
+        if save_to_csv:
+            pd.DataFrame(car_following_data).to_csv(
+                results_dir + dataset_id + "_" + EGO_TYPE + "_follow_" + PRECEDING_TYPE + "_stats.csv",
+                index=False)
+            pd.DataFrame(safety_stats).to_csv(
+                results_dir + dataset_id + "_" + EGO_TYPE + "_follow_" + PRECEDING_TYPE + "_safety_stats.csv",
+                index=False)
+            pd.DataFrame(init_states).to_csv(
+                results_dir + dataset_id + "_initial_states.csv",
+                index=False)
+
+        print("---------------------------")
