@@ -1,4 +1,5 @@
 import statistics
+import numpy as np
 
 def find_car_following(meta_data, data, my_type, preceding_type):
     """
@@ -58,13 +59,17 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                         frame_following_start = frame
                         following_dhw.append(data[i].get('dhw')[frame])
                         following_thw.append(data[i].get('thw')[frame])
-                        following_ttc.append(abs(data[i].get('ttc')[frame]))
+                        following_ttc.append(get_ttc(data[i].get('dhw')[frame],
+                                                     data[i].get('xVelocity')[frame],
+                                                     data[i].get('precedingXVelocity')[frame]))
                         ego_speed.append(data[i].get('xVelocity')[frame])
                         pred_speed.append(data[i].get('precedingXVelocity')[frame])
                     else:
                         following_dhw.append(data[i].get('dhw')[frame])
                         following_thw.append(data[i].get('thw')[frame])
-                        following_ttc.append(abs(data[i].get('ttc')[frame]))
+                        following_ttc.append(get_ttc(data[i].get('dhw')[frame],
+                                                     data[i].get('xVelocity')[frame],
+                                                     data[i].get('precedingXVelocity')[frame]))
                         ego_speed.append(data[i].get('xVelocity')[frame])
                         pred_speed.append(data[i].get('precedingXVelocity')[frame])
                     following_duration = following_duration + 1
@@ -89,6 +94,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     preceding_id = 0
     return following_data
 
+
 def get_vehicle_class(meta_data, id):
     """
 
@@ -97,3 +103,10 @@ def get_vehicle_class(meta_data, id):
     :return: vehicle type (string: 'Car' or 'Truck')
     """
     return meta_data[id].get('class')
+
+
+def get_ttc(dhw, my_speed, pred_speed):
+    if my_speed > pred_speed and dhw != 0:
+        return dhw / (my_speed - pred_speed)
+    else:
+        return np.nan
