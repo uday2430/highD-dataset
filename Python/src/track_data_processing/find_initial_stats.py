@@ -8,7 +8,7 @@ def find_initial_state(meta_data, data):
         veh_length = meta_data[id].get('width')
         veh_init_frame = meta_data[id].get('initialFrame')
         veh_init_lane = get_initial_lane(data, id)
-        veh_init_pos = get_initial_position(data, id)
+        veh_init_pos = get_initial_position(meta_data, data, id)
         veh_init_speed = get_initial_speed(data, id)
         # record the behaviour
         init_states.append(
@@ -30,10 +30,13 @@ def get_initial_lane(data, id):
             return lane
 
 
-def get_initial_position(data, id):
+def get_initial_position(meta_data, data, id):
     for i in range(0, len(data)):
         if data[i].get('id') == id:
-            pos = data[i].get('x')[0] + data[i].get('width')[0]
+            if meta_data[id].get('drivingDirection') == 2:
+                pos = data[i].get('x')[0] + data[i].get('width')[0]
+            elif meta_data[id].get('drivingDirection') == 1:
+                pos = data[i].get('x')[0]
             return pos
 
 
