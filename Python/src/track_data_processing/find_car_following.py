@@ -57,19 +57,23 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     if following_started is False:
                         following_started = True
                         frame_following_start = frame
-                        following_dhw.append(data[i].get('dhw')[frame])
-                        following_thw.append(data[i].get('thw')[frame])
-                        following_ttc.append(get_ttc(data[i].get('dhw')[frame],
-                                                     data[i].get('xVelocity')[frame],
-                                                     data[i].get('precedingXVelocity')[frame]))
+                        if data[i].get('dhw')[frame] > 0:
+                            following_dhw.append(data[i].get('dhw')[frame])
+                            following_ttc.append(get_ttc(data[i].get('dhw')[frame],
+                                                         data[i].get('xVelocity')[frame],
+                                                         data[i].get('precedingXVelocity')[frame]))
+                        if data[i].get('thw')[frame] > 0:
+                            following_thw.append(data[i].get('thw')[frame])
                         ego_speed.append(data[i].get('xVelocity')[frame])
                         pred_speed.append(data[i].get('precedingXVelocity')[frame])
                     else:
-                        following_dhw.append(data[i].get('dhw')[frame])
-                        following_thw.append(data[i].get('thw')[frame])
-                        following_ttc.append(get_ttc(data[i].get('dhw')[frame],
-                                                     data[i].get('xVelocity')[frame],
-                                                     data[i].get('precedingXVelocity')[frame]))
+                        if data[i].get('dhw')[frame] > 0:
+                            following_dhw.append(data[i].get('dhw')[frame])
+                            following_ttc.append(get_ttc(data[i].get('dhw')[frame],
+                                                         data[i].get('xVelocity')[frame],
+                                                         data[i].get('precedingXVelocity')[frame]))
+                        if data[i].get('thw')[frame] > 0:
+                            following_thw.append(data[i].get('thw')[frame])
                         ego_speed.append(data[i].get('xVelocity')[frame])
                         pred_speed.append(data[i].get('precedingXVelocity')[frame])
                     following_duration = following_duration + 1
@@ -106,6 +110,8 @@ def get_vehicle_class(meta_data, id):
 
 
 def get_ttc(dhw, my_speed, pred_speed):
+    my_speed = abs(my_speed)
+    pred_speed = abs(pred_speed)
     if my_speed > pred_speed and dhw != 0:
         return dhw / (my_speed - pred_speed)
     else:
