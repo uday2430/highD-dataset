@@ -1,6 +1,7 @@
 import statistics
 import numpy as np
 
+
 def find_car_following(meta_data, data, my_type, preceding_type):
     """
     Find out car-following situations from specific vehicle types
@@ -40,7 +41,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                         following_data.append(
                             {"ego_id": ego_id, "pred_id": preceding_id, "following_start": frame_following_start,
                              "following_duration": following_duration, "following_end": frame_following_end,
-                             "dhw": statistics.mean(following_dhw), "thw": statistics.mean(following_thw),
+                             "dhw": statistics.mean(following_dhw), "thw": np.nanmean(following_thw),
                              "ttc": statistics.mean(following_ttc),
                              "ego_speed": ego_speed, "pred_speed": pred_speed})
                     following_started = False
@@ -64,6 +65,8 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                                                          data[i].get('precedingXVelocity')[frame]))
                         if data[i].get('thw')[frame] > 0:
                             following_thw.append(data[i].get('thw')[frame])
+                        else:
+                            following_thw.append(np.nan)
                         ego_speed.append(data[i].get('xVelocity')[frame])
                         pred_speed.append(data[i].get('precedingXVelocity')[frame])
                     else:
@@ -74,6 +77,8 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                                                          data[i].get('precedingXVelocity')[frame]))
                         if data[i].get('thw')[frame] > 0:
                             following_thw.append(data[i].get('thw')[frame])
+                        else:
+                            following_thw.append(np.nan)
                         ego_speed.append(data[i].get('xVelocity')[frame])
                         pred_speed.append(data[i].get('precedingXVelocity')[frame])
                     following_duration = following_duration + 1
@@ -84,7 +89,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                         following_data.append(
                             {"ego_id": ego_id, "pred_id": preceding_id, "following_start": frame_following_start,
                              "following_duration": following_duration, "following_end": frame_following_end,
-                             "dhw": statistics.mean(following_dhw), "thw": statistics.mean(following_thw),
+                             "dhw": statistics.mean(following_dhw), "thw": np.nanmean(following_thw),
                              "ttc": statistics.mean(following_ttc),
                              "ego_speed": ego_speed, "pred_speed": pred_speed})
                     following_started = False
