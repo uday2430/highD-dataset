@@ -26,6 +26,7 @@ def read_track_csv(arguments):
                                  FRAME: rows[FRAME].values,
                                  BBOX: bounding_boxes,
                                  X: rows[X].values,
+                                 Y: rows[Y].values,
                                  WIDTH: rows[WIDTH].values,
                                  X_VELOCITY: rows[X_VELOCITY].values,
                                  Y_VELOCITY: rows[Y_VELOCITY].values,
