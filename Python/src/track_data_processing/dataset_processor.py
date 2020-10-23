@@ -81,6 +81,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
         for frame in range(0, len(data[i].get('frame'))):
             if data[i].get('precedingId')[frame] != 0:
                 if preceding_id != 0 and data[i].get('precedingId')[frame] != preceding_id and following_started:
+                    # this condition means that the lead vehicle has changed
                     frame_following_end = frame - 1
                     if frame_following_end != frame_following_start:
                         following_data.append(
@@ -99,7 +100,8 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     following_duration = 0
                 preceding_id = data[i].get('precedingId')[frame]
                 if ((get_vehicle_class(meta_data, preceding_id) == preceding_type)
-                        and (get_vehicle_class(meta_data, ego_id) == my_type)):
+                        and (get_vehicle_class(meta_data, ego_id) == my_type)
+                        and (0 < data[i].get('thw')[frame] < 6)):
                     if following_started is False:
                         following_started = True
                         frame_following_start = frame
