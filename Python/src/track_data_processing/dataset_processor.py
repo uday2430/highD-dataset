@@ -3,9 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .extraction_conditions import *
 
+
 def find_initial_state(meta_data, data):
     init_states = []
-    for id in range(1, len(meta_data)+1):
+    for id in range(1, len(meta_data) + 1):
         veh_id = meta_data[id].get('id')
         veh_class = meta_data[id].get('class')
         veh_length = meta_data[id].get('width')
@@ -82,7 +83,8 @@ def find_car_following(meta_data, data, my_type, preceding_type):
         preceding_id = 0
         ego_id = data[i].get('id')
         for frame in range(0, len(data[i].get('frame'))):
-            if data[i].get('precedingId')[frame] != 0:
+            if (data[i].get('precedingId')[frame] != 0
+                and (CF_TGAP_LOWER_BOUND < data[i].get('thw')[frame] < CF_TGAP_UPPER_BOUND)):
                 if preceding_id != 0 and data[i].get('precedingId')[frame] != preceding_id and following_started:
                     # this condition means that the lead vehicle has changed
                     frame_following_end = frame - 1
@@ -103,8 +105,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     following_duration = 0
                 preceding_id = data[i].get('precedingId')[frame]
                 if ((get_vehicle_class(meta_data, preceding_id) == preceding_type)
-                        and (get_vehicle_class(meta_data, ego_id) == my_type)
-                        and (CF_TGAP_LOWER_BOUND < data[i].get('thw')[frame] < CF_TGAP_UPPER_BOUND)):
+                        and (get_vehicle_class(meta_data, ego_id) == my_type)):
                     if following_started is False:
                         following_started = True
                         frame_following_start = frame
@@ -134,7 +135,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     following_duration = following_duration + 1
             else:
                 if following_started is True:
-                    frame_following_end = frame-1
+                    frame_following_end = frame - 1
                     if frame_following_end != frame_following_start:
                         following_data.append(
                             {"ego_id": ego_id, "pred_id": preceding_id, "following_start": frame_following_start,
@@ -243,16 +244,16 @@ def get_lane_change_trajectory(meta_data, data):
                     LC_index.append(j)
                     current_lane = lane_ids[j]
             for index in LC_index:
-                if LC_MARGIN_FRAMES < index < (totalFrames-LC_MARGIN_FRAMES):
-                    lower_bound = index-LC_MARGIN_FRAMES
-                    upper_bound = index+LC_MARGIN_FRAMES
+                if LC_MARGIN_FRAMES < index < (totalFrames - LC_MARGIN_FRAMES):
+                    lower_bound = index - LC_MARGIN_FRAMES
+                    upper_bound = index + LC_MARGIN_FRAMES
                     if vtype == "Car":
                         y_accel_car_LC += list(data[i].get('yAcceleration')[lower_bound:upper_bound])
                         y_speed_car_LC += list(data[i].get('yVelocity')[lower_bound:upper_bound])
                         y_pos_car_LC = list(data[i].get('y')[lower_bound:upper_bound])
-                        #plt.plot(data[i].get('y'))
-                        #plt.axvline(x=index)
-                        #plt.show()
+                        # plt.plot(data[i].get('y'))
+                        # plt.axvline(x=index)
+                        # plt.show()
                     elif vtype == "Truck":
                         y_accel_truck_LC += list(data[i].get('yAcceleration')[lower_bound:upper_bound])
                         y_speed_truck_LC += list(data[i].get('yVelocity')[lower_bound:upper_bound])
@@ -260,8 +261,8 @@ def get_lane_change_trajectory(meta_data, data):
                     else:
                         print("vehicle class unknown")
         else:
-            #this vehicle did not change lane
-            #find out average yAcceleration
+            # this vehicle did not change lane
+            # find out average yAcceleration
             # this vehicle changes lane
             if vtype == "Car":
                 y_accel_car_noLC += list(data[i].get('yAcceleration'))
@@ -289,4 +290,3 @@ def get_lane_change_trajectory(meta_data, data):
         "Truck_yPos_noLC": y_pos_truck_noLC
     }
     return lc_trajectory
-
