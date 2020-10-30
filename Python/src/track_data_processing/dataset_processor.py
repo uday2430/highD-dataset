@@ -84,7 +84,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
         ego_id = data[i].get('id')
         for frame in range(0, len(data[i].get('frame'))):
             if (data[i].get('precedingId')[frame] != 0
-                and (CF_TGAP_LOWER_BOUND < data[i].get('thw')[frame] < CF_TGAP_UPPER_BOUND)):
+                    and (CF_TGAP_LOWER_BOUND < data[i].get('thw')[frame] < CF_TGAP_UPPER_BOUND)):
                 if preceding_id != 0 and data[i].get('precedingId')[frame] != preceding_id and following_started:
                     # this condition means that the lead vehicle has changed
                     frame_following_end = frame - 1
