@@ -69,6 +69,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
         dhw: array of DHW while following
         thw: array of THW while following
         ttc: array of TTC while following
+        TET: duration in seconds while TTC < TTC_STAR
     """
     following_data = []
     for i in range(0, len(data)):
@@ -94,6 +95,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                              "following_duration": following_duration, "following_end": frame_following_end,
                              "dhw": statistics.mean(following_dhw), "thw": np.nanmean(following_thw),
                              "ttc": statistics.mean(following_ttc),
+                             "TET":  (sum(map(lambda x : x <= TTC_STAR, following_ttc)))*TIME_STEP,
                              "ego_speed": ego_speed, "pred_speed": pred_speed})
                     following_started = False
                     following_dhw = []
@@ -142,6 +144,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                              "following_duration": following_duration, "following_end": frame_following_end,
                              "dhw": statistics.mean(following_dhw), "thw": np.nanmean(following_thw),
                              "ttc": statistics.mean(following_ttc),
+                             "TET": (sum(map(lambda x: x <= TTC_STAR, following_ttc))) * TIME_STEP,
                              "ego_speed": ego_speed, "pred_speed": pred_speed})
                     following_started = False
                     following_dhw = []
@@ -290,3 +293,75 @@ def get_lane_change_trajectory(meta_data, data):
         "Truck_yPos_noLC": y_pos_truck_noLC
     }
     return lc_trajectory
+
+
+def get_dataset_profile(recording_meta, track_meta, track):
+    n_veh = recording_meta.get('numVehicles')
+    n_cars = recording_meta.get('numCars')
+    n_trucks = recording_meta.get('numTrucks')
+    speed_limit = recording_meta.get('speedLimit')
+    n_LC = 0
+    n_LC_cars = 0
+    n_LC_trucks = 0
+    min_speed_all_array = []
+    min_speed_cars_array = []
+    min_speed_trucks_array = []
+    max_speed_all_array = []
+    max_speed_cars_array = []
+    max_speed_trucks_array = []
+    mean_speed_all_array = []
+    mean_speed_cars_array = []
+    mean_speed_trucks_array = []
+    for i in range(0, len(track)):
+        ego_id = track[i].get('id')
+        n_lc = track_meta[ego_id].get('numLaneChanges')
+        vtype = track_meta[ego_id].get('class')
+        min_speed = track_meta[ego_id].get('minXVelocity')
+        max_speed = track_meta[ego_id].get('maxXVelocity')
+        mean_speed = track_meta[ego_id].get('meanXVelocity')
+        min_speed_all_array.append(min_speed)
+        max_speed_all_array.append(max_speed)
+        mean_speed_all_array.append(mean_speed)
+        if vtype == "Car":
+            n_LC_cars = n_LC_cars + n_lc
+            n_LC = n_LC + n_lc
+            min_speed_cars_array.append(min_speed)
+            max_speed_cars_array.append(max_speed)
+            mean_speed_cars_array.append(mean_speed)
+        elif vtype == "Truck":
+            n_LC_trucks = n_LC_trucks + n_lc
+            n_LC = n_LC + n_lc
+            min_speed_trucks_array.append(min_speed)
+            max_speed_trucks_array.append(max_speed)
+            mean_speed_trucks_array.append(mean_speed)
+        else:
+            print("vehicle class unknown")
+    min_speed_all = min(min_speed_all_array)
+    max_speed_all = max(max_speed_all_array)
+    mean_speed_all = statistics.mean(mean_speed_all_array)
+    min_speed_cars = min(min_speed_cars_array)
+    max_speed_cars = max(max_speed_cars_array)
+    mean_sped_cars = statistics.mean(mean_speed_cars_array)
+    min_speed_trucks = min(min_speed_trucks_array)
+    max_speed_trucks = max(max_speed_trucks_array)
+    mean_speed_trucks = statistics.mean(mean_speed_trucks_array)
+    dataset_profile = {
+        "number_of_vehicles": n_veh,
+        "number_of_cars": n_cars,
+        "number_of_trucks": n_trucks,
+        "number_of_LC": n_LC,
+        "number_of_LC_cars": n_LC_cars,
+        "number_of_LC_trucks": n_LC_trucks,
+        "speed_limit": speed_limit,
+        "min_speed_all": min_speed_all,
+        "max_speed_all": max_speed_all,
+        "mean_speed_all": mean_speed_all,
+        "min_speed_cars": min_speed_cars,
+        "max_speed_cars": max_speed_cars,
+        "mean_speed_cars": mean_sped_cars,
+        "min_speed_trucks": min_speed_trucks,
+        "max_speed_trucks": max_speed_trucks,
+        "mean_speed_trucks": mean_speed_trucks
+    }
+    return dataset_profile
+
