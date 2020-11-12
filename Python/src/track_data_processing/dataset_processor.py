@@ -88,14 +88,14 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     and (CF_TGAP_LOWER_BOUND < data[i].get('thw')[frame] < CF_TGAP_UPPER_BOUND)):
                 if preceding_id != 0 and data[i].get('precedingId')[frame] != preceding_id and following_started:
                     # this condition means that the lead vehicle has changed
-                    frame_following_end = frame - 1
+                    frame_following_end = data[i].get('frame')[frame] - 1
                     if frame_following_end != frame_following_start:
                         following_data.append(
                             {"ego_id": ego_id, "pred_id": preceding_id, "following_start": frame_following_start,
                              "following_duration": following_duration, "following_end": frame_following_end,
                              "dhw": statistics.mean(following_dhw), "thw": np.nanmean(following_thw),
                              "ttc": statistics.mean(following_ttc),
-                             "TET":  (sum(map(lambda x : x <= TTC_STAR, following_ttc)))*TIME_STEP,
+                             "TET":  (sum(map(lambda x: x <= TTC_STAR, following_ttc)))*TIME_STEP,
                              "ego_speed": ego_speed, "pred_speed": pred_speed})
                     following_started = False
                     following_dhw = []
@@ -110,7 +110,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                         and (get_vehicle_class(meta_data, ego_id) == my_type)):
                     if following_started is False:
                         following_started = True
-                        frame_following_start = frame
+                        frame_following_start = data[i].get('frame')[frame]
                         if data[i].get('dhw')[frame] > 0:
                             following_dhw.append(data[i].get('dhw')[frame])
                             following_ttc.append(get_ttc(data[i].get('dhw')[frame],
@@ -137,7 +137,7 @@ def find_car_following(meta_data, data, my_type, preceding_type):
                     following_duration = following_duration + 1
             else:
                 if following_started is True:
-                    frame_following_end = frame - 1
+                    frame_following_end = data[i].get('frame')[frame] - 1
                     if frame_following_end != frame_following_start:
                         following_data.append(
                             {"ego_id": ego_id, "pred_id": preceding_id, "following_start": frame_following_start,
